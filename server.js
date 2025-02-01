@@ -8,6 +8,7 @@ app.get('/hello', (req, res) => {
 });
 
 app.post('/webhook', (req, res) => {
+    console.log(req.body);
     res.send('Webhook!');
 });
 
