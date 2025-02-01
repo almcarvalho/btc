@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Svix Webhook Secret (Ensure this is stored securely, e.g., via environment variables)
-const SVIX_SECRET = process.env.SVIX_SECRET || "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+const SVIX_SECRET = process.env.SVIX_SECRET;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
