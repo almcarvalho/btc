@@ -7,6 +7,10 @@ app.get('/hello', (req, res) => {
     res.send('Hello, World!');
 });
 
+app.post('/webhook', (req, res) => {
+    res.send('Webhook!');
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
