@@ -41,7 +41,7 @@ app.post('/check-payment-test', (req, res) => {
 app.get('/check-payment', (req, res) => {
     var temp = machine01;
     machine01 = 0;
-    res.send("" + temp);
+    res.send("" + converterSatoshis(temp));
 });
 
 // Webhook route with verification
