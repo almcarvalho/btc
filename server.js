@@ -56,6 +56,7 @@ app.get('/check-payment-maq02', (req, res) => {
 app.post('/webhook', (req, res) => {
     const headers = req.headers;
     const payload = JSON.stringify(req.body);
+    var orderId = "";
 
     try {
         const wh = new Webhook(SVIX_SECRET);
@@ -71,13 +72,11 @@ app.post('/webhook', (req, res) => {
 
         const orderIdMatch = memo.match(/Order ID: (\d+)/);
 
-        var orderId = "";
-
         if (orderIdMatch) {
             orderId = orderIdMatch[1]; // O número do Order ID
             console.log("📦 Order ID Extraído:", orderId);
         } else {
-            console.log("⚠️ Order ID não encontrado!");
+            console.log("⚠️ Order ID não encontrado!", orderId);
         }
 
         switch (orderId) {
@@ -86,7 +85,7 @@ app.post('/webhook', (req, res) => {
                 console.log("✅ Valor atribuído a machine01:", machine01);
                 break;
 
-            case "Maq02":
+            case "1234":
                 console.log("Máquina 02 identificada");
                 // Adicione a lógica específica aqui
                 machine02 = req.body.amount;
