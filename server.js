@@ -13,11 +13,13 @@ app.use(express.json());
 
 var machine01 = 0;
 
+var machine02 = 0;
+
 //1 real ou 1 BRL = 178 satoshis
 function converterSatoshis(valor) {
     var valorAux = 0;
     var ticket = 0;
-    ticket = SATOSHI_BRL; 
+    ticket = SATOSHI_BRL;
 
     if (valor >= ticket) {
         valorAux = valor;
@@ -44,6 +46,12 @@ app.get('/check-payment', (req, res) => {
     res.send("" + converterSatoshis(temp));
 });
 
+app.get('/check-payment-maq02', (req, res) => {
+    var temp = machine02;
+    machine02 = 0;
+    res.send("" + converterSatoshis(temp));
+});
+
 // Webhook route with verification
 app.post('/webhook', (req, res) => {
     const headers = req.headers;
@@ -58,7 +66,36 @@ app.post('/webhook', (req, res) => {
         });
 
         console.log("✅ Webhook verified successfully:", req.body);
-        machine01 = req.body.amount;
+
+        const memo = req.body.memo;
+
+        const orderIdMatch = memo.match(/Order ID: (\d+)/);
+
+        if (orderIdMatch) {
+            const orderId = orderIdMatch[1]; // O número do Order ID
+            console.log("📦 Order ID Extraído:", orderId);
+        } else {
+            console.log("⚠️ Order ID não encontrado!");
+        }
+
+        switch (orderId) {
+            case "123":
+                machine01 = req.body.amount;
+                console.log("✅ Valor atribuído a machine01:", machine01);
+                break;
+
+            case "Maq02":
+                console.log("Máquina 02 identificada");
+                // Adicione a lógica específica aqui
+                machine02 = req.body.amount;
+                break;
+
+
+
+            default:
+                console.log("❌ Order ID não reconhecido:", orderId);
+        }
+
         res.status(200).send("Webhook received!");
     } catch (error) {
         console.error("❌ Webhook verification failed:", error.message);
