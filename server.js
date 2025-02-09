@@ -71,8 +71,10 @@ app.post('/webhook', (req, res) => {
 
         const orderIdMatch = memo.match(/Order ID: (\d+)/);
 
+        var orderId = "";
+
         if (orderIdMatch) {
-            const orderId = orderIdMatch[1]; // O número do Order ID
+            orderId = orderIdMatch[1]; // O número do Order ID
             console.log("📦 Order ID Extraído:", orderId);
         } else {
             console.log("⚠️ Order ID não encontrado!");
